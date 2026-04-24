@@ -1,340 +1,303 @@
-import type { ReactNode } from "react";
 import Image from "next/image";
-import { BlurWords } from "@/components/blur-words";
+import { ProductStage } from "@/components/product-stage";
 import { Reveal } from "@/components/reveal";
 import { WaitlistForm } from "@/components/waitlist-form";
 import styles from "./page.module.css";
 
 export const runtime = "nodejs";
 
+const stageFrames = [
+  {
+    src: "/images/yafe-stage-front.png",
+    alt: "Front view of the Yafé 001 sunglasses.",
+  },
+  {
+    src: "/images/yafe-stage-side-1.png",
+    alt: "Three-quarter view of the Yafé 001 sunglasses.",
+  },
+  {
+    src: "/images/yafe-stage-side-2.png",
+    alt: "Side view of the Yafé 001 sunglasses.",
+  },
+];
+
 const specs = [
-  { label: "Finish", value: "Obsidian tortoise acetate" },
-  { label: "Lens", value: "Warm amber tint" },
-  { label: "Shape", value: "Structured rectangle with softened corners" },
-  { label: "Included", value: "Ivory fold case and olive presentation box" },
+  { label: "Frame", value: "Italian acetate, tortoise" },
+  { label: "Lens", value: "Mineral glass, burnt olive" },
+  { label: "Hardware", value: "Satin brass, recessed" },
+  { label: "Made in", value: "Cadore and Tel Aviv" },
 ];
-
-const promises = [
-  "Waitlist access before the public release.",
-  "First notice for Drop 01 and the silhouettes that follow.",
-  "A focused release, not a crowded catalog.",
-];
-
-const waitlistBenefits = [
-  "Private release notes.",
-  "Early access when the first batch opens.",
-  "First notice on future drops.",
-];
-
-type PackagingCardProps = {
-  eyebrow: string;
-  title: string;
-  copy: string;
-  src: string;
-  alt: string;
-  className?: string;
-  delay?: number;
-};
-
-function PackagingCard({
-  eyebrow,
-  title,
-  copy,
-  src,
-  alt,
-  className,
-  delay = 0,
-}: PackagingCardProps) {
-  return (
-    <Reveal
-      className={[styles.packagingCard, className].filter(Boolean).join(" ")}
-      delay={delay}
-    >
-      <div className={styles.packagingMedia}>
-        <Image
-          src={src}
-          alt={alt}
-          fill
-          sizes="(max-width: 960px) 100vw, 40vw"
-          className={styles.packagingImage}
-        />
-      </div>
-      <div className={styles.packagingMeta}>
-        <p className={styles.cardEyebrow}>{eyebrow}</p>
-        <h3 className={styles.cardTitle}>{title}</h3>
-        <p className={styles.cardCopy}>{copy}</p>
-      </div>
-    </Reveal>
-  );
-}
-
-function ActionLabel({ children }: { children: ReactNode }) {
-  return <span className={styles.actionLabel}>{children}</span>;
-}
 
 export default function Home() {
   return (
     <div className={styles.page} id="top">
-      <div className={styles.announcementBar}>
-        <span>First release. Waitlist now open for Yafe 01.</span>
-        <a href="#waitlist">Join waitlist</a>
-      </div>
-
       <header className={styles.header}>
-        <div className={styles.headerInner}>
-          <a href="#top" className={styles.wordmark}>
-            YAFE
+        <nav className={styles.nav}>
+          <div className={styles.navGroup}>
+            <a className={styles.navLink} href="#product">
+              Collection
+            </a>
+            <a className={styles.navLink} href="#story">
+              Journal
+            </a>
+            <a className={styles.navLink} href="#waitlist">
+              Atelier
+            </a>
+          </div>
+
+          <a href="#top" className={styles.mark}>
+            YAF<span className={styles.markAccent}>É</span>
           </a>
 
-          <nav className={styles.nav}>
-            <a href="#product">Frame</a>
-            <a href="#craft">Craft</a>
-            <a href="#waitlist">Waitlist</a>
-          </nav>
-
-          <a href="#waitlist" className={styles.headerCta}>
-            Notify me
-          </a>
-        </div>
+          <div className={`${styles.navGroup} ${styles.navGroupRight}`}>
+            <span className={styles.navLink}>EN / עב</span>
+            <a className={styles.navLink} href="#waitlist">
+              Request Access <span aria-hidden="true">→</span>
+            </a>
+          </div>
+        </nav>
       </header>
 
       <main className={styles.main}>
         <section className={styles.hero}>
-          <Reveal className={styles.heroMediaWrap} delay={0.05}>
-            <div className={styles.heroMedia}>
-              <Image
-                src="/images/yafe-hero.jpg"
-                alt="Two models wearing Yafe sunglasses."
-                fill
-                priority
-                sizes="100vw"
-                className={styles.coverImage}
-              />
-              <div className={styles.heroScrim} />
-              <div className={styles.heroIntro}>
-                <p className={styles.eyebrow}>Drop 01</p>
-                <h1 className={styles.heroTitle}>
-                  <BlurWords text="Beauty, seen" className={styles.heroTitleLine} />
-                  <span className={styles.heroTitleAccent}>differently.</span>
+          <div className={styles.heroImage}>
+            <Image
+              src="/images/yafe-hero-wide.png"
+              alt="Two models wearing Yafé sunglasses."
+              fill
+              priority
+              sizes="100vw"
+              className={styles.heroCover}
+            />
+            <div className={styles.heroShade} />
+            <div className={styles.heroOverlay}>
+              <Reveal>
+                <p className={styles.heroCaps}>Maison Yafé | Summer 2026</p>
+              </Reveal>
+              <Reveal delay={0.08}>
+                <h1 className={styles.heroWordmark}>
+                  yaf<span className={styles.heroAccent}>é</span>.
                 </h1>
-                <p className={styles.heroCopy}>
-                  Yafe builds quiet-luxury eyewear for the second glance:
-                  sculpted acetate, amber optics, and packaging restrained
-                  enough to let the frame speak.
-                </p>
-
-                <div className={styles.heroActions}>
-                  <a href="#waitlist" className={styles.primaryAction}>
-                    <ActionLabel>Join waitlist</ActionLabel>
-                  </a>
-                  <a href="#product" className={styles.secondaryAction}>
-                    View frame
-                  </a>
-                </div>
-              </div>
-              <div className={styles.heroCard}>
-                <p className={styles.heroCardLabel}>YAFE /ya-fe/</p>
-                <p className={styles.heroCardText}>
-                  Beauty made complete by the eye that receives it.
-                </p>
-                <p className={styles.heroCardMeta}>
-                  Obsidian tortoise / amber lens / first edition
-                </p>
-              </div>
+              </Reveal>
             </div>
-          </Reveal>
-        </section>
-
-        <Reveal className={styles.statementStrip}>
-          <div className={styles.statementItem}>Small-batch first release</div>
-          <div className={styles.statementItem}>Amber lens warmth, not glare</div>
-          <div className={styles.statementItem}>
-            One silhouette now, more to follow
           </div>
-        </Reveal>
 
-        <section id="product" className={styles.productSection}>
-          <div className={styles.productGallery}>
-            <Reveal className={styles.galleryPrimary}>
-              <figure className={`${styles.mediaCard} ${styles.mediaCardLarge}`}>
-                <Image
-                  src="/images/yafe-front.jpg"
-                  alt="Front view of Yafe 01 sunglasses."
-                  fill
-                  sizes="(max-width: 1024px) 100vw, 60vw"
-                  className={styles.mediaFigureImage}
-                />
-                <figcaption className={styles.mediaCaption}>Front view</figcaption>
-              </figure>
+          <div className={styles.heroText}>
+            <Reveal className={styles.heroLeadBlock}>
+              <p className={styles.definition}>
+                <span className={styles.definitionHead}>
+                  yafé · <span className={styles.hebrew}>יָפֶה</span>
+                </span>
+                <span className={styles.definitionBody}>
+                  beautiful; fair of form. A quiet Hebrew for that which the
+                  beholder alone can name.
+                </span>
+              </p>
+              <p className={styles.lede}>
+                A first drop of seven hundred pairs, cut from Italian acetate
+                and finished by hand in a small atelier outside Tel Aviv. We
+                are opening a private list.
+              </p>
+              <div className={styles.metaRow}>
+                <span>N° 001</span>
+                <span>Burnt Olive | Tortoise</span>
+                <span>€1,150</span>
+              </div>
             </Reveal>
 
-            <div className={styles.gallerySecondary}>
+            <Reveal delay={0.12}>
+              <WaitlistForm
+                formId="hero-waitlist"
+                collection="yafe-01"
+                source="hero"
+                label="Request the list"
+                submitLabel="Enter"
+                pendingLabel="Entering"
+                note="Seven hundred pairs. Delivery begins June 2026."
+                className={styles.heroForm}
+              />
+            </Reveal>
+          </div>
+        </section>
+
+        <section id="product" className={styles.section}>
+          <div className={styles.sectionHead}>
+            <Reveal>
+              <h2 className={styles.sectionTitle}>The first pair.</h2>
+            </Reveal>
+            <Reveal delay={0.08}>
+              <p className={styles.sectionMeta}>N° 001 | Burnt Olive</p>
+            </Reveal>
+          </div>
+
+          <div className={styles.productGrid}>
+            <Reveal>
+              <ProductStage frames={stageFrames} />
+            </Reveal>
+
+            <div className={styles.productCopy}>
               <Reveal>
-                <figure className={`${styles.mediaCard} ${styles.mediaCardSmall}`}>
-                  <Image
-                    src="/images/yafe-side.jpg"
-                    alt="Three-quarter view of the Yafe 01 frame."
-                    fill
-                    sizes="(max-width: 640px) 100vw, 28vw"
-                    className={styles.mediaFigureImage}
-                  />
-                  <figcaption className={styles.mediaCaption}>Profile</figcaption>
-                </figure>
+                <p className={styles.productEyebrow}>The Beholder</p>
               </Reveal>
-
-              <Reveal delay={0.12}>
-                <figure className={`${styles.mediaCard} ${styles.mediaCardSmall}`}>
-                  <Image
-                    src="/images/yafe-detail.jpg"
-                    alt="Temple detail of the Yafe 01 frame."
-                    fill
-                    sizes="(max-width: 640px) 100vw, 28vw"
-                    className={styles.mediaFigureImage}
-                  />
-                  <figcaption className={styles.mediaCaption}>Temple detail</figcaption>
-                </figure>
+              <Reveal delay={0.05}>
+                <h3 className={styles.productTitle}>
+                  Rectangular, in <em>burnt olive</em>.
+                </h3>
               </Reveal>
-            </div>
-          </div>
-
-          <Reveal className={styles.productPanel} delay={0.12} direction="left">
-            <div className={styles.panelStatusRow}>
-              <span className={styles.statusPill}>Coming soon</span>
-              <span className={styles.statusPillMuted}>Waitlist live</span>
-            </div>
-
-            <p className={styles.eyebrow}>First edition</p>
-            <h2 className={styles.sectionTitle}>Yafe 01 sunglasses</h2>
-            <p className={styles.panelCopy}>
-              A rectangular silhouette shaped with softened corners, dense dark
-              tortoise acetate, and a warm amber tint that turns sharp light
-              into something slower.
-            </p>
-
-            <dl className={styles.specGrid}>
-              {specs.map((spec) => (
-                <div key={spec.label}>
-                  <dt className={styles.specTerm}>{spec.label}</dt>
-                  <dd className={styles.specDefinition}>{spec.value}</dd>
+              <Reveal delay={0.1}>
+                <p className={styles.productSku}>Ref. Y·001 / Tortoise</p>
+              </Reveal>
+              <Reveal delay={0.15}>
+                <p className={styles.paragraph}>
+                  Cut from a single billet of Mazzucchelli acetate, tumbled
+                  seventy-two hours, polished against calfskin until the
+                  surface turns almost liquid.
+                </p>
+              </Reveal>
+              <Reveal delay={0.2}>
+                <p className={styles.paragraph}>
+                  Mineral lenses, hand-tinted in burnt olive, soften glare
+                  without draining the scene of warmth. Satin brass hardware
+                  sits recessed, so the line stays clean in profile.
+                </p>
+              </Reveal>
+              <Reveal delay={0.25}>
+                <dl className={styles.specGrid}>
+                  {specs.map((spec) => (
+                    <div key={spec.label}>
+                      <dt className={styles.specTerm}>{spec.label}</dt>
+                      <dd className={styles.specDefinition}>{spec.value}</dd>
+                    </div>
+                  ))}
+                </dl>
+              </Reveal>
+              <Reveal delay={0.3}>
+                <div className={styles.priceRow}>
+                  <div className={styles.price}>€1,150</div>
+                  <div className={styles.priceNote}>
+                    Including VAT. By appointment.
+                  </div>
                 </div>
-              ))}
-            </dl>
-
-            <ul className={styles.promiseList}>
-              {promises.map((promise) => (
-                <li key={promise} className={styles.promiseItem}>
-                  <span className={styles.promiseBullet} />
-                  <span>{promise}</span>
-                </li>
-              ))}
-            </ul>
-
-            <div className={styles.panelActions}>
-              <a
-                href="#waitlist"
-                className={`${styles.primaryAction} ${styles.buttonWide}`}
-              >
-                <ActionLabel>Join waitlist</ActionLabel>
-              </a>
-              <a
-                href="#craft"
-                className={`${styles.secondaryAction} ${styles.buttonWide}`}
-              >
-                See craft
-              </a>
+              </Reveal>
             </div>
-
-            <p className={styles.panelNote}>
-              Price and release window arrive with the invite.
-            </p>
-          </Reveal>
-        </section>
-
-        <section id="craft" className={styles.craftSection}>
-          <Reveal className={styles.craftIntro}>
-            <p className={styles.eyebrow}>Craft</p>
-            <h2 className={styles.sectionTitle}>
-              Nothing extra. Everything considered.
-            </h2>
-            <p className={styles.sectionCopy}>
-              Quiet luxury is restraint with conviction. The frame stays
-              structured but not severe. The packaging stays tactile but never
-              loud. Every surface slows the eye down instead of fighting for it.
-            </p>
-            <blockquote className={styles.inlineQuote}>
-              Proceed as if limits to our ability did not exist.
-            </blockquote>
-          </Reveal>
-
-          <div className={styles.craftGrid}>
-            <PackagingCard
-              eyebrow="Included"
-              title="Ivory fold case"
-              copy="Soft, minimal, and made to disappear into the ritual."
-              src="/images/yafe-case.jpg"
-              alt="Ivory Yafe fold case."
-            />
-            <PackagingCard
-              eyebrow="Presentation"
-              title="Olive reveal box"
-              copy="A quieter reveal with weight, texture, and contrast."
-              src="/images/yafe-box.jpg"
-              alt="Olive Yafe presentation box with case and cloth."
-              delay={0.1}
-            />
-            <PackagingCard
-              eyebrow="Study"
-              title="Burnt olive direction"
-              copy="A more muted finish for later drops and seasonal variants."
-              src="/images/yafe-burnt-olive.jpg"
-              alt="Burnt olive Yafe presentation study."
-              className={styles.packagingWide}
-              delay={0.16}
-            />
           </div>
         </section>
 
-        <section className={styles.definitionSection}>
-          <Reveal className={styles.definitionPanel}>
-            <p className={styles.eyebrow}>Definition</p>
-            <h2 className={styles.definitionTitle}>
-              Yafe is beauty in the eye of the beholder, refined into something
-              wearable.
-            </h2>
-            <p className={styles.sectionCopy}>
-              The object matters. The eye finishes it. That is the brand, the
-              frame, and the release strategy.
-            </p>
-          </Reveal>
-        </section>
-
-        <section id="waitlist" className={styles.waitlistSection}>
-          <Reveal className={styles.waitlistCard}>
-            <div className={styles.waitlistIntro}>
-              <p className={styles.eyebrowLight}>Waitlist</p>
-              <h2 className={`${styles.sectionTitle} ${styles.sectionTitleLight}`}>
-                Join before the first release.
+        <section id="story" className={`${styles.section} ${styles.storySection}`}>
+          <div className={styles.sectionHead}>
+            <Reveal>
+              <h2 className={styles.sectionTitle}>
+                On <em>seeing</em>.
               </h2>
-              <p className={styles.waitlistCopy}>
-                Get the launch window for Drop 01, private release notes, and
-                first notice when the next silhouettes arrive.
-              </p>
+            </Reveal>
+            <Reveal delay={0.08}>
+              <p className={styles.sectionMeta}>The House | A Letter</p>
+            </Reveal>
+          </div>
+
+          <div className={styles.storyGrid}>
+            <div className={styles.storyCopy}>
+              <Reveal>
+                <p className={styles.pullQuote}>
+                  &ldquo;Beauty, when it comes, arrives already <span>translated</span>.
+                  We are only the tongue it borrows for the afternoon.&rdquo;
+                </p>
+              </Reveal>
+              <Reveal delay={0.06}>
+                <p className={styles.quoteAttr}>from the House letters, no. III</p>
+              </Reveal>
+              <Reveal delay={0.12}>
+                <p className={styles.storyParagraph}>
+                  Yafé began with a disagreement about what makes an object
+                  beautiful. The answer became a practice: make fewer things,
+                  shape them properly, and let the beholder finish the
+                  sentence.
+                </p>
+              </Reveal>
+              <Reveal delay={0.18}>
+                <p className={styles.storyParagraph}>
+                  Quiet luxury should not explain itself too loudly. One pair a
+                  season, small numbers, no clutter, no rush. Enough presence
+                  for the second glance.
+                </p>
+              </Reveal>
+              <Reveal delay={0.24}>
+                <p className={styles.signature}>The House of Yafé</p>
+              </Reveal>
             </div>
 
-            <WaitlistForm />
+            <div className={styles.storyMedia}>
+              <Reveal className={styles.storyPrimary}>
+                <figure className={styles.storyCard}>
+                  <Image
+                    src="/images/yafe-house-box.jpg"
+                    alt="The Yafé presentation box and pouch."
+                    fill
+                    sizes="(max-width: 900px) 100vw, 48vw"
+                    className={styles.storyImage}
+                  />
+                </figure>
+              </Reveal>
+              <Reveal delay={0.06}>
+                <figure className={styles.storyCardSmall}>
+                  <Image
+                    src="/images/yafe-house-olive.jpg"
+                    alt="Olive Yafé packaging."
+                    fill
+                    sizes="(max-width: 900px) 100vw, 24vw"
+                    className={styles.storyImage}
+                  />
+                </figure>
+              </Reveal>
+              <Reveal delay={0.12}>
+                <figure className={styles.storyCardSmall}>
+                  <Image
+                    src="/images/yafe-house-burnt-olive.jpg"
+                    alt="Burnt olive Yafé packaging."
+                    fill
+                    sizes="(max-width: 900px) 100vw, 24vw"
+                    className={styles.storyImage}
+                  />
+                </figure>
+              </Reveal>
+            </div>
+          </div>
+        </section>
 
-            <ul className={styles.waitlistBenefits}>
-              {waitlistBenefits.map((benefit) => (
-                <li key={benefit} className={styles.waitlistBenefit}>
-                  {benefit}
-                </li>
-              ))}
-            </ul>
+        <section id="waitlist" className={styles.closeSection}>
+          <Reveal>
+            <h2 className={styles.closeTitle}>
+              Beauty <em>lies</em>
+              <br />
+              in the beholder.
+            </h2>
+          </Reveal>
+          <Reveal delay={0.08}>
+            <p className={styles.closeCopy}>
+              Seven hundred pairs. Summer 2026. The list closes when it closes.
+            </p>
+          </Reveal>
+          <Reveal delay={0.12}>
+            <WaitlistForm
+              formId="footer-waitlist"
+              collection="yafe-01"
+              source="footer"
+              label=""
+              submitLabel="Request Access"
+              pendingLabel="Entering"
+              note="Private. No newsletters. One letter, when it is time."
+              centered
+              className={styles.footerForm}
+            />
           </Reveal>
         </section>
       </main>
 
-      <footer className={styles.footer}>YAFE. Quiet luxury eyewear.</footer>
+      <footer className={styles.footer}>
+        <span>&copy; Maison Yaf&eacute;, 2026</span>
+        <span>Tel Aviv | Cadore | Paris</span>
+        <span>Instagram | Contact</span>
+      </footer>
     </div>
   );
 }

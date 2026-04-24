@@ -1,0 +1,75 @@
+.stage {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  background: var(--color-bg-alt);
+  cursor: grab;
+  user-select: none;
+  touch-action: pan-y;
+}
+
+.dragging {
+  cursor: grabbing;
+}
+
+.frame {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 350ms ease;
+}
+
+.frameActive {
+  opacity: 1;
+}
+
+.frameImage {
+  object-fit: contain;
+  padding: 7%;
+  filter: drop-shadow(0 26px 34px rgba(40, 40, 20, 0.12));
+}
+
+.dots {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  display: flex;
+  gap: 0.45rem;
+  z-index: 1;
+}
+
+.dot {
+  width: 0.4rem;
+  height: 0.4rem;
+  border-radius: 999px;
+  background: #c7bfad;
+  transition:
+    background 300ms ease,
+    transform 300ms ease;
+}
+
+.dotActive {
+  background: var(--color-olive);
+  transform: scale(1.25);
+}
+
+.hint {
+  position: absolute;
+  right: 0;
+  bottom: 1rem;
+  left: 0;
+  color: var(--color-muted);
+  font-size: 0.68rem;
+  letter-spacing: 0.26em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.touched .hint {
+  opacity: 0;
+}
+
+.stage:focus-visible {
+  outline: 2px solid var(--color-olive);
+  outline-offset: 4px;
+}

@@ -1,41 +1,43 @@
 import type { ReactNode } from "react";
 import type { Metadata } from "next";
-import { Inter, Playfair_Display } from "next/font/google";
+import { Cormorant_Garamond, EB_Garamond } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({
-  variable: "--font-sans",
-  subsets: ["latin"],
-  display: "swap",
-});
-
-const playfair = Playfair_Display({
-  variable: "--font-serif",
+const cormorant = Cormorant_Garamond({
+  variable: "--font-display",
   subsets: ["latin"],
   style: ["normal", "italic"],
-  weight: ["400", "600", "700"],
+  weight: ["300", "400", "500"],
   display: "swap",
 });
 
-const siteTitle = "YAFE | Quiet luxury eyewear, coming soon";
+const ebGaramond = EB_Garamond({
+  variable: "--font-body",
+  subsets: ["latin"],
+  style: ["normal", "italic"],
+  weight: ["400", "500"],
+  display: "swap",
+});
+
+const siteTitle = "YAFÉ | Summer 2026";
 const siteDescription =
-  "A quiet-luxury launch site for Yafe 01, the first YAFE sunglasses drop.";
+  "A first drop of seven hundred pairs, cut from Italian acetate and finished by hand. Private waitlist now open.";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://yafe-eyewear.vercel.app"),
   title: {
     default: siteTitle,
-    template: "%s | YAFE",
+    template: "%s | YAFÉ",
   },
   description: siteDescription,
-  applicationName: "YAFE",
+  applicationName: "YAFÉ",
   alternates: {
     canonical: "/",
   },
   openGraph: {
     title: siteTitle,
     description: siteDescription,
-    siteName: "YAFE",
+    siteName: "YAFÉ",
     type: "website",
   },
   twitter: {
@@ -51,7 +53,7 @@ export default function RootLayout({
   children: ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${playfair.variable}`}>
+    <html lang="en" className={`${cormorant.variable} ${ebGaramond.variable}`}>
       <body>{children}</body>
     </html>
   );

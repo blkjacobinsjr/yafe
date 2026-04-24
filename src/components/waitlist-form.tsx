@@ -10,18 +10,40 @@ type WaitlistState = {
   message: string;
 };
 
+type WaitlistFormProps = {
+  formId: string;
+  collection?: string;
+  source?: string;
+  label?: string;
+  placeholder?: string;
+  submitLabel?: string;
+  pendingLabel?: string;
+  note?: string;
+  centered?: boolean;
+  className?: string;
+};
+
 const initialState: WaitlistState = {
   status: "idle",
   message: "",
 };
 
-function SubmitButton() {
+function SubmitButton({
+  label,
+  pendingLabel,
+}: {
+  label: string;
+  pendingLabel: string;
+}) {
   const { pending } = useFormStatus();
 
   return (
     <button type="submit" className={styles.submitButton} disabled={pending}>
       <span className={styles.submitInner}>
-        <span>{pending ? "Reserving your place" : "Join waitlist"}</span>
+        <span>{pending ? pendingLabel : label}</span>
+        <span className={styles.arrow} aria-hidden="true">
+          →
+        </span>
         <span className={styles.loader} data-visible={pending} aria-hidden="true">
           <span />
           <span />
@@ -32,7 +54,18 @@ function SubmitButton() {
   );
 }
 
-export function WaitlistForm() {
+export function WaitlistForm({
+  formId,
+  collection = "yafe-01",
+  source = "page",
+  label = "Request the list",
+  placeholder = "your.name@somewhere",
+  submitLabel = "Request access",
+  pendingLabel = "Entering",
+  note = "Private. No newsletters. One letter, when it is time.",
+  centered = false,
+  className = "",
+}: WaitlistFormProps) {
   const formRef = useRef<HTMLFormElement | null>(null);
   const [state, formAction] = useActionState(joinWaitlist, initialState);
 
@@ -43,27 +76,40 @@ export function WaitlistForm() {
   }, [state.status]);
 
   return (
-    <div className={styles.shell}>
+    <div
+      className={[
+        styles.shell,
+        centered ? styles.centered : "",
+        className,
+      ]
+        .filter(Boolean)
+        .join(" ")}
+    >
       <form ref={formRef} action={formAction} className={styles.form}>
+        {label ? <div className={styles.label}>{label}</div> : null}
+
         <div className={styles.fieldRow}>
-          <label className={styles.srOnly} htmlFor="waitlist-email">
+          <label className={styles.srOnly} htmlFor={formId}>
             Email address
           </label>
           <input
-            id="waitlist-email"
+            id={formId}
             name="email"
             type="email"
             required
             autoComplete="email"
-            placeholder="Email address"
+            placeholder={placeholder}
             className={styles.input}
           />
 
-          <label className={styles.honeypot} htmlFor="website">
+          <input type="hidden" name="collection" value={collection} />
+          <input type="hidden" name="source" value={source} />
+
+          <label className={styles.honeypot} htmlFor={`${formId}-website`}>
             Website
           </label>
           <input
-            id="website"
+            id={`${formId}-website`}
             name="website"
             type="text"
             tabIndex={-1}
@@ -71,19 +117,19 @@ export function WaitlistForm() {
             className={styles.honeypot}
           />
 
-          <SubmitButton />
+          <SubmitButton label={submitLabel} pendingLabel={pendingLabel} />
         </div>
 
-        <p className={styles.helper}>
-          One note when the first release lands. No crowded drip sequence.
-        </p>
+        <p className={styles.note}>{note}</p>
 
         <p
           className={[
             styles.message,
             state.status === "success" ? styles.messageSuccess : "",
             state.status === "error" ? styles.messageError : "",
-          ].join(" ")}
+          ]
+            .filter(Boolean)
+            .join(" ")}
           aria-live="polite"
         >
           {state.message || " "}
